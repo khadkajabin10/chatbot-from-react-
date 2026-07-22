@@ -9,20 +9,135 @@
     <script src="https://unpkg.com/supersimpledev/react.js"></script>
     <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+    <script src="https://unpkg.com/supersimpledev/chatbot.js"></script>
 
     <script src="https://unpkg.com/supersimpledev/babel.js"></script>
     <script type="text/babel">
-      function ChatInput() {
+      function ChatInput({ chatMessages, setChatMessages }) {
+        const [inputText, setInputText] = React.useState();
+        function saveInputText(event) {
+          setInputText(event.target.value); //Here you're calling the function setInputText and passing it a value. you are not assing to setinputtext
+        }
+        function sendMessage() {
+          const newChatMessages = [
+            ...chatMessages,
+            {
+              message: inputText,
+              sender: "user",
+              id: crypto.randomUUID(),
+            },
+          ];
+          setChatMessages(newChatMessages);
+          const response = chatbot.getResponse(inputText);
+          setChatMessages([
+            ...newChatMessages,
+            {
+              message: response,
+              sender: "robot",
+              id: crypto.randomUUID(),
+            },
+          ]);
+          setInputText("");
+        }
         return (
-          <div>
-            <input />
-            <button>send</button>
-          </div>
+          <>
+            <input
+              placeholder="Send a message to Chatbot"
+              size="30"
+              onChange={saveInputText}
+              value={inputText}
+            />
+            <button onClick={sendMessage}>send</button>
+          </>
         );
       }
-      const div = <div>{ChatInput()}</div>;
+      function ChatMessage({ message, sender }) {
+        //this or this ChatMessage(props ) then  const message = props.message;
+        //const message = props.message;
+        //const sender = props.sender;
+
+        if (sender === "robot") {
+          return (
+            <div>
+              <img
+                src="Chatbot.jpg"
+                width="50"
+                height="50"
+                style={{ borderRadius: "50%" }}
+              />
+              {message}
+            </div>
+          );
+        } else {
+          return (
+            <div>
+              {message}
+
+              <img
+                src="man.jpg"
+                width="50"
+                height="50"
+                style={{ borderRadius: "50%" }}
+              />
+            </div>
+          );
+        }
+      }
+      function ChatMessages({ chatMessages }) {
+        return (
+          <>
+            {chatMessages.map((chatMessage) => {
+              return (
+                <ChatMessage
+                  message={chatMessage.message}
+                  sender={chatMessage.sender}
+                  key={chatMessage.id}
+                />
+              );
+            })}
+          </>
+        );
+      }
+      function App() {
+        const array = React.useState([
+          {
+            message: "hello Chatbot",
+            sender: "user",
+            id: "id1",
+          },
+          {
+            message: "Hello! How can I help you",
+            sender: "robot",
+            id: "id2",
+          },
+          {
+            message: "can you get mme todays date?",
+            sender: "user",
+            id: "id3",
+          },
+          {
+            message: "today is sept 27",
+            sender: "robot",
+            id: "id4",
+          },
+        ]);
+
+        const chatMessages = array[0]; //shorcut const [chatMessage,setChatMessages]=array; orders matter ok ,
+        const setChatMessages = array[1];
+
+        return (
+          <>
+            <ChatInput
+              chatMessages={chatMessages}
+              setChatMessages={setChatMessages}
+            />
+            <ChatMessages chatMessages={chatMessages} />
+          </>
+        );
+      }
+
       const container = document.querySelector(".js-container");
-      ReactDOM.createRoot(container).render(div);
+      ReactDOM.createRoot(container).render(<App />);
     </script>
   </body>
 </html>
