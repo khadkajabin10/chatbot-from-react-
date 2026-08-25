@@ -9,7 +9,7 @@ import ChatMessages from "./components/chatMessages";
 
 function App() {
   const array = useState([
-    {
+    /* {
       message: "hello Chatbot",
       sender: "user",
       id: "id1",
@@ -28,7 +28,7 @@ function App() {
       message: "today is sept 27",
       sender: "robot",
       id: "id4",
-    },
+    },*/
   ]);
 
   const chatMessages = array[0]; //shorcut const [chatMessage,setChatMessages]=array; orders matter ok ,
