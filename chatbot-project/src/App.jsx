@@ -4,7 +4,7 @@ import { ChatInput } from "./components/ChatInput.jsx";
 
 import "./App.css";
 
-import { ChatMessages } from "./components/ChatMessages.jsx";
+import ChatMessages from "./components/ChatMessages.jsx";
 
 function App() {
   const array = useState([
