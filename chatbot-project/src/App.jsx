@@ -3,9 +3,8 @@ import { useState } from "react";
 import { ChatInput } from "./components/ChatInput.jsx";
 
 import "./App.css";
-import RobotProfileImage from "./assets/chatbot.jpg";
-import UserProfileImage from "./assets/man.jpg";
-import ChatMessages from "./components/chatMessages";
+
+import { ChatMessages } from "./components/ChatMessages.jsx";
 
 function App() {
   const array = useState([
